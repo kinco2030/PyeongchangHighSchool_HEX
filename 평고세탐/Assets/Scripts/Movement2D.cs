@@ -58,4 +58,13 @@ public class Movement2D : MonoBehaviour
             rigid.velocity = Vector2.up * jumpForce;
         }
     }
+
+    public void OnDamaged(Vector2 targetPos)
+    {
+        int direction = transform.position.x - targetPos.x > 0 ? 1 : -1;
+        Vector2 knockbackForce = new Vector2(direction, 1) * 10f; // 조절 가능한 힘
+
+        rigid.velocity = Vector2.zero; // 현재 속도를 초기화합니다.
+        rigid.AddForce(knockbackForce, ForceMode2D.Impulse);
+    }
 }

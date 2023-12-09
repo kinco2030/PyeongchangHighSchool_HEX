@@ -56,4 +56,12 @@ public class PlayerController : MonoBehaviour
             movement2D.isLongJump = false;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            movement2D.OnDamaged(collision.transform.position);
+        }
+    }
 }

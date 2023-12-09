@@ -5,9 +5,21 @@ using UnityEngine;
 public class Turrat : MonoBehaviour
 {
     public GameObject firePrefab;
+    public bool isRight;
+    public float fire_speed = 10f;
+
+    private float direction = 90;
 
     private void Start()
     {
+        if (isRight == true)
+        {
+            direction = 90;
+        }
+        else
+        {
+            direction = 270;
+        }
         StartCoroutine(ShotFire());
     }
 
@@ -18,7 +30,18 @@ public class Turrat : MonoBehaviour
             yield return null;
             yield return new WaitForSeconds(3);
             GameObject fire = Instantiate(firePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-            fire.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+            fire.transform.rotation = Quaternion.Euler(new Vector3(0, 0, direction));
+            Rigidbody2D fire_rigid = fire.GetComponent<Rigidbody2D>();
+
+            if (isRight == true)
+            {
+                fire_rigid.velocity = Vector2.right * fire_speed;
+            }
+            else if (isRight == false)
+            {
+                fire_rigid.velocity = Vector2.left * fire_speed;
+            }
+
             yield return new WaitForSeconds(3);
             Destroy(fire);
         }
