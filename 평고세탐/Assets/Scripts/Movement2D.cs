@@ -15,8 +15,8 @@ public class Movement2D : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
     private CapsuleCollider2D capsuleCollider2D;
-    private bool isGrounded;
     private Vector3 footPosition;
+    public bool isGrounded;
 
     private void Awake()
     {
