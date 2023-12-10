@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Fire
+  - Dead
   layers:
   - Default
   - TransparentFX

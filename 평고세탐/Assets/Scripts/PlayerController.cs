@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public float maxSpeed;
     public float jumpPower;
+    public bool isLongJump = false;
 
     private void Awake()
     {
@@ -20,13 +21,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Jump
-        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJump"))
+        if (isKnockback == false)
         {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            anim.SetBool("isJump", true);
-        } 
-           
+            Jump();
+        }
+
+
+        // space down => isLongJump = true
+        if (Input.GetKey(KeyCode.Space))
+        {
+            isLongJump = true;
+        }
+        // space up => isLongJump = false
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isLongJump = false;
+        }
 
         // Stop move
         if (Input.GetButtonUp("Horizontal"))
@@ -45,6 +55,16 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isRun", false);
         else
             anim.SetBool("isRun", true);
+
+        // Long Jump
+        if (isLongJump && rigid.velocity.y > 0)
+        {
+            rigid.gravityScale = 4.0f;
+        }
+        else
+        {
+            rigid.gravityScale = 10.0f;
+        }
     }
 
     private void FixedUpdate()
@@ -53,18 +73,9 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-       
-        // move
-        float h = Input.GetAxisRaw("Horizontal");
 
-        rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
-        
-        
-        // move controll by maxspeed
-        if (rigid.velocity.x > maxSpeed)
-            rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
-        else if (rigid.velocity.x < -maxSpeed)
-            rigid.velocity = new Vector2(-maxSpeed, rigid.velocity.y);
+        // move
+        Move();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -81,6 +92,38 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("À¸¾Ç");
             OnDamaged(collision.transform.position);
+        }
+
+        if (collision.gameObject.CompareTag("Dead"))
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
+    }
+
+    /* MOVE */
+    private void Move()
+    {
+        // move
+        float h = Input.GetAxisRaw("Horizontal");
+
+        rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
+
+
+        // move controll by maxspeed
+        if (rigid.velocity.x > maxSpeed)
+            rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+        else if (rigid.velocity.x < -maxSpeed)
+            rigid.velocity = new Vector2(-maxSpeed, rigid.velocity.y);
+    }
+
+    /* JUMP */
+    private void Jump()
+    {
+        // Jump
+        if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
+        {
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetBool("isJump", true);
         }
     }
 
@@ -102,86 +145,4 @@ public class PlayerController : MonoBehaviour
         maxSpeed = originalMaxSpeed;
         isKnockback = false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //private Movement2D movement2D;
-    //private Animator anim;
-
-    //private void Awake()
-    //{
-    //    movement2D = GetComponent<Movement2D>();
-    //    anim = GetComponent<Animator>();
-    //}
-
-    //private void Update()
-    //{
-    //    // player move
-    //    float x = Input.GetAxisRaw("Horizontal");
-
-    //    // player rotate
-    //    if (x > 0f)
-    //        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-    //    else if (x < 0f)
-    //        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-
-    //    // Animation
-    //    // Run
-    //    if (x != 0f)
-    //        anim.SetBool("isRun", true);
-    //    else
-    //        anim.SetBool("isRun", false);
-
-    //    // Jump
-    //    if (movement2D.isGrounded == true)
-    //        anim.SetBool("isJump", false);
-    //    else if (movement2D.isGrounded == false)
-    //        anim.SetBool("isJump", true);
-
-    //    movement2D.Move(x);
-
-    //    // player jump
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        movement2D.Jump();
-    //    }
-
-    //    // space down => isLongJump = true
-    //    if (Input.GetKey(KeyCode.Space))
-    //    {
-    //        movement2D.isLongJump = true;
-    //    }
-    //    // space up => isLongJump = false
-    //    if (Input.GetKeyUp(KeyCode.Space))
-    //    {
-    //        movement2D.isLongJump = false;
-    //    }
-    //}
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Fire"))
-    //    {
-    //        movement2D.OnDamaged(collision.transform.position);
-    //    }
-    //}
 }

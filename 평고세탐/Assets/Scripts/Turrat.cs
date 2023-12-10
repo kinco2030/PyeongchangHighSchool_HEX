@@ -8,10 +8,11 @@ public class Turrat : MonoBehaviour
     public bool isRight;
     public float fire_speed = 10f;
 
-    private float direction = 90;
+    private float direction;
 
     private void Start()
     {
+        direction = 90;
         if (isRight == true)
         {
             direction = 90;
