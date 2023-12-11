@@ -16,14 +16,11 @@ public class FadeInOut : MonoBehaviour
     private void Awake()
     {
         image = GetComponent<Image>();
-
-        OnFade(FadeState.FadeInOut);
     }
 
     public void OnFade(FadeState state)
     {
         fadeState = state;
-
         switch (fadeState)
         {
             case FadeState.FadeIn:

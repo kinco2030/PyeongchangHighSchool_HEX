@@ -84,13 +84,17 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isJump", false);
         }
+
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            OnDamaged(collision.transform.position);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Fire"))
         {
-            Debug.Log("으악");
             OnDamaged(collision.transform.position);
         }
 
@@ -131,12 +135,13 @@ public class PlayerController : MonoBehaviour
     {
         int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
         StartCoroutine(ChangeMaxSpeedAfterDelay(3f, 100f, 5f));
-        rigid.AddForce(Vector2.right * dirc * 30, ForceMode2D.Impulse);
+        rigid.AddForce(new Vector2(dirc, 1) * 30, ForceMode2D.Impulse);
     }
 
     private IEnumerator ChangeMaxSpeedAfterDelay(float delay, float newMaxSpeed, float originalMaxSpeed)
     {
         isKnockback = true;
+        anim.SetBool("isFalling", true);
         // MaxSpeed를 변경
         maxSpeed = newMaxSpeed;
         // 다시 1초 동안 대기
@@ -144,5 +149,6 @@ public class PlayerController : MonoBehaviour
         // MaxSpeed를 복구
         maxSpeed = originalMaxSpeed;
         isKnockback = false;
+        anim.SetBool("isFalling", false);
     }
 }
