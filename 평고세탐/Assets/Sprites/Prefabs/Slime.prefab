@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5505076645139388270}
   - component: {fileID: 2461820909734619026}
   - component: {fileID: 1903345977675874641}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slime
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &2461820909734619026
 BoxCollider2D:
   m_ObjectHideFlags: 0

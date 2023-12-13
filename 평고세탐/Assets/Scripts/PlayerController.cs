@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Vector2 targetPos = collision.transform.position;
+
         if (collision.gameObject.CompareTag("Ground"))
         {
             anim.SetBool("isJump", false);
@@ -87,15 +89,22 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Monster"))
         {
-            OnDamaged(collision.transform.position);
+            OnDamaged(targetPos);
+        }
+
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            OnDamaged(targetPos);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Vector2 targetPos = collision.transform.position;
+
         if (collision.gameObject.CompareTag("Fire"))
         {
-            OnDamaged(collision.transform.position);
+            OnDamaged(targetPos);
         }
 
         if (collision.gameObject.CompareTag("Dead"))
