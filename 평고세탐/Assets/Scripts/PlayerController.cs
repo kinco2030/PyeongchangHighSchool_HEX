@@ -150,7 +150,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ChangeMaxSpeedAfterDelay(float delay, float newMaxSpeed, float originalMaxSpeed)
     {
         isKnockback = true;
-        anim.SetBool("isFalling", true);
         // MaxSpeed를 변경
         maxSpeed = newMaxSpeed;
         // 다시 1초 동안 대기
@@ -158,6 +157,5 @@ public class PlayerController : MonoBehaviour
         // MaxSpeed를 복구
         maxSpeed = originalMaxSpeed;
         isKnockback = false;
-        anim.SetBool("isFalling", false);
     }
 }
