@@ -8,14 +8,11 @@ public class Monster : MonoBehaviour
      Move ai,
      */
     private Rigidbody2D rigid;
-    private float nextThinkTime;
+    private int nextMove = 1;
 
-    public int nextMove;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-
-        Invoke("Think", nextThinkTime);
     }
 
     private void FixedUpdate()
@@ -28,15 +25,6 @@ public class Monster : MonoBehaviour
         if (rayHit.collider == null)
         {
             nextMove *= -1;
-            CancelInvoke();
         }
-    }
-
-    public void Think()
-    {
-        nextMove = Random.Range(-1, 2);
-        nextThinkTime = Random.Range(2f, 6f);
-        
-        Invoke("Think", nextThinkTime);
     }
 }
