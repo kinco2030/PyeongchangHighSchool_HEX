@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private LayerMask groundLayer;
+
     private Rigidbody2D rigid;
     private Animator anim;
+    private CapsuleCollider2D capsuleCollider;
 
     private bool isKnockback = false;
+    private bool isGrounded;
+    private Vector3 footPosition;
 
     public float maxSpeed;
     public float jumpPower;
@@ -17,11 +22,12 @@ public class PlayerController : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
     {
-        if (isKnockback == false)
+        if (isKnockback == false && Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
@@ -73,6 +79,10 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
+        Bounds bounds = capsuleCollider.bounds;
+        footPosition = new Vector2(bounds.center.x, bounds.min.y);
+        isGrounded = Physics2D.OverlapCircle(footPosition, 0.1f, groundLayer);
 
         // move
         Move();
@@ -132,18 +142,16 @@ public class PlayerController : MonoBehaviour
     /* JUMP */
     private void Jump()
     {
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
+        if (isGrounded == true)
         {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            anim.SetBool("isJump", true);
+            rigid.velocity = Vector2.up * jumpPower;
         }
     }
 
     private void OnDamaged(Vector2 targetPos)
     {
         int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
-        StartCoroutine(ChangeMaxSpeedAfterDelay(3f, 100f, 5f));
+        StartCoroutine(ChangeMaxSpeedAfterDelay(3f, 100f, maxSpeed));
         rigid.AddForce(new Vector2(dirc, 1) * 30, ForceMode2D.Impulse);
     }
 

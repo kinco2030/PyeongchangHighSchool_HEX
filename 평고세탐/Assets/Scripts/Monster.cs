@@ -10,6 +10,8 @@ public class Monster : MonoBehaviour
     private Rigidbody2D rigid;
     private int nextMove = 1;
 
+    public float monsterSpeed;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -17,7 +19,7 @@ public class Monster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
+        rigid.velocity = new Vector2(nextMove * monsterSpeed, rigid.velocity.y);
 
         Vector2 frontVec = new Vector2(rigid.position.x + nextMove * 1.5f, rigid.position.y);
         Debug.DrawRay(frontVec, Vector3.down, Color.yellow);
@@ -26,5 +28,10 @@ public class Monster : MonoBehaviour
         {
             nextMove *= -1;
         }
+
+        if (nextMove < 0)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else if (nextMove > 0)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

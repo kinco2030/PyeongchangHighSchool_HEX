@@ -48,6 +48,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void OnClickRetrunMainButton()
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void OnClickExitButton()
     {
         Application.Quit();

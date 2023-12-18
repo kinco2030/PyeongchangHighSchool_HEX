@@ -7,22 +7,24 @@ using UnityEngine.UI;
 public class TimerController : MonoBehaviour
 {
     public Text timerText;
-
-    public int timer = 0;
+    public float setTime = 120;
 
     private void Awake()
     {
-        StartCoroutine(TimerCoroutine());
+        timerText.text = setTime.ToString();
     }
 
-    private IEnumerator TimerCoroutine()
+    private void Update()
     {
-        timer += 1;
+        if (setTime > 0)
+        {
+            setTime -= Time.deltaTime;
+        }
+        else if (setTime <= 0)
+        {
+            Debug.Log("е╦юс ╬ф©Т!");
+        }
 
-        timerText.text = (timer / 3600).ToString("D2") + ":" + (timer / 60 % 60).ToString("D2") + ":" + (timer % 60).ToString("D2");
-
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(TimerCoroutine());
+        timerText.text = Mathf.Round(setTime).ToString();
     }
 }

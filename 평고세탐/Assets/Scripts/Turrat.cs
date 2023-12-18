@@ -43,7 +43,7 @@ public class Turrat : MonoBehaviour
                 fire_rigid.velocity = Vector2.left * fire_speed;
             }
 
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(10);
             Destroy(fire);
         }
     }
