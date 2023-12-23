@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class TimerController : MonoBehaviour
 {
     public Text timerText;
-    public float setTime = 120;
-
+    float setTime;
     private void Awake()
     {
+        setTime = GameManager.Instance.setTime;
         timerText.text = setTime.ToString();
     }
 
@@ -22,7 +22,9 @@ public class TimerController : MonoBehaviour
         }
         else if (setTime <= 0)
         {
-            Debug.Log("е╦юс ╬ф©Т!");
+            timerText.text = "е╦юс ╬ф©Т!";
+            GameManager.Instance.gameover = true;
+            Time.timeScale = 0;
         }
 
         timerText.text = Mathf.Round(setTime).ToString();

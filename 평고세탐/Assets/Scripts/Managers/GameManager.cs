@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int chap = 1;
-    public bool isNewChap = false;
+    public bool gameover = false;
+    public float height;
+    public float setTime = 120;
 
     // 싱글톤 패턴을 사용하기 위한 인스턴스 변수
     private static GameManager _instance;

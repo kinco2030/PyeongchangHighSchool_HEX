@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class UIManager : MonoBehaviour
     public bool isPaused;
 
     private void Awake()
+    {
+        CheckSettingView();
+    }
+
+    private void CheckSettingView()
     {
         if (settingWindow == null)
             return;
@@ -45,6 +51,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        Time.timeScale = 1f;
+        GameManager.Instance.setTime = 300;
+        GameManager.Instance.gameover = false;
         SceneManager.LoadScene(sceneName);
     }
 

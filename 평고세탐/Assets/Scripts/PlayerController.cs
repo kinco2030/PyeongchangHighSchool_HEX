@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
     private void OnDamaged(Vector2 targetPos)
     {
         int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
-        StartCoroutine(ChangeMaxSpeedAfterDelay(3f, 100f, maxSpeed));
+        StartCoroutine(ChangeMaxSpeedAfterDelay(3f, 100f, 10f));
         rigid.AddForce(new Vector2(dirc, 1) * 30, ForceMode2D.Impulse);
     }
 

@@ -9,20 +9,16 @@ public class HeightController : MonoBehaviour
     [SerializeField] private GameObject target;
 
     private Vector3 targetPos;
-    private float max;
 
     private void Awake()
     {
         targetPos = target.transform.position;
-        max = targetPos.y;
     }
 
     private void Update()
     {
-        if (max <= targetPos.y)
-            max = targetPos.y;
-
-        heightText.text = "높이 : " + Mathf.Round(max).ToString() + "M";
+        heightText.text = "높이 : " + (Mathf.Round(targetPos.y) + 2).ToString() + "M";
         targetPos = target.transform.position;
+        GameManager.Instance.height = targetPos.y;
     }
 }
